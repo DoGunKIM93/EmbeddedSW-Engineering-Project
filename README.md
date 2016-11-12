@@ -3,3 +3,5 @@
 
 2016-11-09 01:40 opencv test, github test success[dg]
 2016-11-12 01:37 opencv test, github test success[sw]
+2016-11-12 23:58 basic Server-Client test success[dg/sw]
+
