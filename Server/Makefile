@@ -1,4 +1,4 @@
-TARGET := tcpIPServer tcpIPClient
+TARGET = tcpIPServer tcpIPClient
 CC = gcc
 CFLAGS = -g -Wall
 S_OUTPUT = tcpIPServer
