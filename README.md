@@ -6,3 +6,4 @@
 2016-11-12 23:58 basic Server-Client test success
 2016-11-15 23:16 basic make test success
 2016-11-16 01:15 basic stopLaneDetect test success
+2016-11-17 01:12 Modified stopLaneDetect Algorithm
