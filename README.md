@@ -8,3 +8,4 @@
 2016-11-16 01:15 basic stopLaneDetect test success
 2016-11-17 01:12 Modified stopLaneDetect Algorithm
 2016-11-17 02:09 add mysql test
+2016-11-17 23:36 Modified stopLaneDetect Algorithm
