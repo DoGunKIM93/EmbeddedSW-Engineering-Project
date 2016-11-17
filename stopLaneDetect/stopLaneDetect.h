@@ -21,7 +21,7 @@ class stopLaneDetect
 public:
 	stopLaneDetect();
 	~stopLaneDetect();
-	// v average
+	// V 평균
 	int calHSVAverage(cv::Mat& src);
 	// 흰색 강화
 	void intensifyWhite(cv::Mat& img, cv::Mat& out);

@@ -74,24 +74,24 @@ void stopLaneDetect::intensifyWhite(cv::Mat& img, cv::Mat& out)
 
 }
 
-void stopLaneDetect::intensifyWhite(cv::Mat& img, cv::Mat& out)
-{
-	cvtColor(img, out, COLOR_BGR2HSV);
-
-	inRange(out, Scalar(0, 0, 170), Scalar(180, 20, 255), out); // HSV 흰색 강조
-
-}
-
 void stopLaneDetect::preprocessing(InputArray src, OutputArray dst, Rect Area)
 {
 	Mat srcmat = src.getMat();
 	Mat dstmat1;
 	Mat dstmat2;
+	Mat Cannytest;
 
 	srcmat(Area).copyTo(dstmat2);	//관심영역을 복사
 	intensifyWhite(dstmat2, dstmat1);
 	imshow("intensifyWhite", dstmat1);
 
-	dstmat1.copyTo(dst);
+	GaussianBlur(dstmat1, dstmat1, Size(7, 7), 0.7, 10);
+	medianBlur(dstmat1, dstmat1, 5);
+
+	imshow("medianBlur", dstmat1);
+	Canny(dstmat1, Cannytest, 30, 90); // 60 120
+	imshow("Canny", Cannytest);
+
+	Cannytest.copyTo(dst);
 }
 
