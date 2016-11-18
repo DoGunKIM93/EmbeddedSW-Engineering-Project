@@ -9,3 +9,6 @@
 2016-11-17 01:12 Modified stopLaneDetect Algorithm
 2016-11-17 02:09 add mysql test
 2016-11-17 23:36 Modified stopLaneDetect Algorithm
+2016-11-19 00:29 add QT test
+2016-11-19 00:29 Modified stopLaneDetect Algorithm
+
