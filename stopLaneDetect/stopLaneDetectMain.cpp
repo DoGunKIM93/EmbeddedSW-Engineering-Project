@@ -31,6 +31,8 @@ int main(void)
 				break;
 
 			finder.preprocessing(frame, edges, Area);
+			stopLaneDetect realfinder;
+			realfinder.transformHough(edges, frame, 0);
 			imshow("output", frame);
 		}
 	}

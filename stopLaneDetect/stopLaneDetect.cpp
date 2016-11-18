@@ -1,11 +1,31 @@
 #include "stopLaneDetect.h"
 
-stopLaneDetect::stopLaneDetect()
-{
+stopLaneDetect::stopLaneDetect() : deltaRho(1), deltaTheta(PI / 180), minVote(10), minLength(0.), maxGap(0.){
 }
 
 stopLaneDetect::~stopLaneDetect()
 {
+}
+
+void stopLaneDetect::setAccResolution(double dRho, double dTheta) {
+	deltaRho = dRho;
+	deltaTheta = dTheta;
+}
+
+void stopLaneDetect::setMinVote(int minv) {
+	minVote = minv;
+}
+
+void stopLaneDetect::setLineLengthAndGap(double length, double gap) {
+	minLength = length;
+	maxGap = gap;
+}
+
+vector<Vec4i> stopLaneDetect::findLines(Mat& binary) {
+	lines.clear();
+	HoughLinesP(binary, lines, deltaRho, deltaTheta, minVote, minLength, maxGap);
+
+	return lines;
 }
 
 int stopLaneDetect::calHSVAverage(cv::Mat& src)
@@ -93,5 +113,20 @@ void stopLaneDetect::preprocessing(InputArray src, OutputArray dst, Rect Area)
 	imshow("Canny", Cannytest);
 
 	Cannytest.copyTo(dst);
+}
+
+void stopLaneDetect::transformHough(InputArray src, OutputArray original, int _input)
+{
+	int input = _input;
+	Mat srcmat = src.getMat();
+	Mat originalmat = original.getMat();
+
+	// 확률적 허프변환 파라미터 설정하기
+	setLineLengthAndGap(100, 100);	// 80 80
+	setMinVote(50);
+	setAccResolution(1, PI / 180);
+
+	// 선 감지
+	vector<Vec4i> lines = findLines(srcmat);
 }
 
