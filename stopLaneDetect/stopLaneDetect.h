@@ -15,9 +15,48 @@
 
 using namespace cv;
 using namespace std;
+#define PI 3.1415926
 
 class stopLaneDetect
 {
+public:
+	/////// 정지선 검출을 위한 4개의 변수
+	Point selected_first_1 = Point(0,0);
+	Point selected_first_2 = Point(0,0);
+	Point selected_second_1 = Point(0,0);
+	Point selected_second_2 = Point(0,0);
+
+	////////////
+	Point core_point = Point(0,0);
+	int end = 0;
+	int found = 0;
+
+	///////// 출력 위함
+	char str_buf[200];
+
+	//////// 4개의 점 흰색 영역 비율 확인
+	Mat_<uchar> find_white;
+	int total_pixels = 0;
+	int white_pixels = 0;
+
+	//////// 정지선 사각형의 흰색 비율 확인을 위한 변수
+	int temp_x1 = 0;
+	int temp_x2 = 0;
+	int temp_y1 = 0;
+	int temp_y2 = 0;
+	int leftest_x = 0;
+	int rightest_x = 0;
+	int upperest_y = 0;
+	int lowerest_y = 0;
+
+	//// Thread
+	short int stop_distance = 995; // 정지선 인식 범위 후, 정지선 인식범위 내 인식 못했을 때 
+	short int stop_distanceTemp = 995; // Temp 
+	int detectFlag = 0;
+    // 최대의 사각형 출력
+	Point first;
+	Point second;
+
 private:
 	// 원 영상
 	Mat img;
@@ -32,6 +71,7 @@ private:
 	double minLength;
 	// 선에 따른 최대 허용 간격
 	double maxGap;
+
 public:
 	stopLaneDetect();
 	~stopLaneDetect();
@@ -41,6 +81,13 @@ public:
 	void setMinVote(int minv);
 	// 선 길이와 간격 설정
 	void setLineLengthAndGap(double length, double gap);
+	// 확률적 허프 변환 적용
+	vector<Vec4i> findLines(Mat& binary);
+	// 최대 정사각형의 점 구하기
+	void findLeftestX(Point first_p1, Point frist_p2, Point second_p1, Point second_p2);
+	void findRightestX(Point first_p1, Point frist_p2, Point second_p1, Point second_p2);
+	void findUpperestX(Point first_p1, Point frist_p2, Point second_p1, Point second_p2);
+	void findLowerestX(Point first_p1, Point frist_p2, Point second_p1, Point second_p2);
 	// V 평균
 	int calHSVAverage(cv::Mat& src);
 	// 흰색 강화
@@ -49,6 +96,9 @@ public:
 	void preprocessing(InputArray src, OutputArray dst, Rect Area);
 	// 허프변환
 	void transformHough(InputArray src, OutputArray original, int _input);
+	// 검출된 정지선 그리기
+	void drawDetectedLanes(Mat &image, int _input);
+
 };
 
 #endif;
