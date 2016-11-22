@@ -30,6 +30,13 @@ public:
 	Point core_point = Point(0,0);
 	int end = 0;
 	int found = 0;
+	/////////// 거리 계산 위함
+	long double a = 0.0028;
+	long double b2 = -2.3758;
+	long double c = 523.4131;
+	unsigned short y = 0;
+	unsigned short showDistance = 995;
+	int y_flag = 0;
 
 	///////// 출력 위함
 	char str_buf[200];
