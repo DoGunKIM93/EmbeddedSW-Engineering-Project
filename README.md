@@ -15,3 +15,4 @@
 2016-11-22 00:12 Modified stopLaneDetect Algorithm
 2016-11-22 00:34 mysql make test success
 2016-11-22 22:15 Modified stopLaneDetect Algorithm
+2016-11-24 23:41 add project GUI demo version
