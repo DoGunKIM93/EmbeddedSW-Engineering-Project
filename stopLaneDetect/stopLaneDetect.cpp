@@ -29,6 +29,12 @@ vector<Vec4i> stopLaneDetect::findLines(Mat& binary) {
 	return lines;
 }
 
+unsigned short stopLineDetect::setFittingLine(long double _x) {
+	y = a*pow(_x, 2) + b2*_x + c;
+
+	return y;
+}
+
 void stopLaneDetect::findLeftestX(Point first_p1, Point frist_p2, Point second_p1, Point second_p2)
 {
 	if (first_p1.x < frist_p2.x)
