@@ -22,6 +22,9 @@ using namespace std;
 class stopLaneDetect
 {
 public:
+    // for Display dialog
+    static int _stoplane_dist;
+    static int _distflag;
     // 직선의 방정식을 위한 변수
     float slap = 0;
     float b = 0;

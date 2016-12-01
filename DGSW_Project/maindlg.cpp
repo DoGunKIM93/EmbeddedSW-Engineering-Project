@@ -11,6 +11,8 @@
 extern QString childDlg::_drivName;
 extern QString childDlg::_drivCarNumber;
 extern QString childDlg::_drivCarModel;
+extern int stopLaneDetect::_distflag;
+extern int stopLaneDetect::_stoplane_dist;
 
 Mat frame;	//원 프레임
 Mat edges;	//처리된 이후의 프레임
@@ -26,6 +28,18 @@ MainDlg::MainDlg(QWidget *parent) :
     ui(new Ui::MainDlg)
 {
     ui->setupUi(this);
+    model = new QStandardItemModel (this);
+
+    model->setRowCount(rowcnt);          // can expand length
+    model->setColumnCount(4);
+
+    //model->setHorizontalHeaderItem(0, new QStandardItem(QString("name")));
+    model->setHorizontalHeaderItem(0, new QStandardItem(QString("date")));
+    model->setHorizontalHeaderItem(1, new QStandardItem(QString("Point contents")));
+    model->setHorizontalHeaderItem(2, new QStandardItem(QString("score")));
+    model->setHorizontalHeaderItem(3, new QStandardItem(QString("Total score")));
+    ui->tableView->resizeColumnsToContents();
+    ui->tableView->setModel(model);
 }
 
 MainDlg::~MainDlg()
@@ -70,6 +84,18 @@ void MainDlg::on_pushStartButton_clicked()
             stopLaneDetect realfinder;
             realfinder.transformHough(edges, frame, 0);
             imshow("output", frame);
+        }
+	if(stopLaneDetect::_distflag)
+        {
+            //char *buf;
+            //buf = itoa(stopLaneDetect::_stoplane_dist, buf);
+
+            QStandardItem *insertData = new QStandardItem(QString(QString::number(stopLaneDetect::_stoplane_dist)));
+            model->setItem(rowcnt, 1, insertData);
+            rowcnt++;
+            model->setRowCount(rowcnt);
+            ui->tableView->scrollToBottom();
+            stopLaneDetect::_distflag=0;
         }
     }
 }

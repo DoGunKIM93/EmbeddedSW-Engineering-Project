@@ -25,6 +25,7 @@ private slots:
 private:
     Ui::MainDlg *ui;
     childDlg *scndDlg;
+    QStandardItemModel *model;
 };
 
 #endif // MAINDLG_H

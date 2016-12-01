@@ -306,7 +306,9 @@ void stopLaneDetect::drawDetectedLanes(Mat &image, int _input)
                                 else if (y_flag == 1)
                                     showDistance = setFittingLine(long((selected_second_1.y + selected_second_2.y) / 2));
 
-                                sprintf(str_buf, "Distance : %dCM", showDistance);                           
+                                sprintf(str_buf, "Distance : %dCM", showDistance);
+                                _distflag =  1;
+                                _stoplane_dist = showDistance;                           
                                 putText(image, str_buf, Point(20, 120), FONT_HERSHEY_SIMPLEX, 1, Scalar::all(255), 1);
                             }
                         }
