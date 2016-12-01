@@ -20,3 +20,4 @@
 2016-12-01 02:06 add MysqlForSW
 2016-12-01 02:06 update project GUI version
 2016-12-02 12:05 add branch forStopAndGUI
+2016-12-02 00:11 add branch named 'forUpdateGUI' 
