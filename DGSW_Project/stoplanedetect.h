@@ -114,7 +114,7 @@ public:
     // 전처리
     void preprocessing(InputArray src, OutputArray dst, Rect Area);
     // 허프변환
-    void transformHough(InputArray src, OutputArray original, int _input);
+    void transformHough(InputArray src, OutputArray original, int _input, int _videoFlag);
     // 검출된 정지선 그리기
     void drawDetectedLanes(Mat &image, int _input);
 

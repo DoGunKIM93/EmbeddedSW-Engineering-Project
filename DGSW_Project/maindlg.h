@@ -26,6 +26,11 @@ private:
     Ui::MainDlg *ui;
     childDlg *scndDlg;
     QStandardItemModel *model;
+    QDate *date;
+    QDate curDate;
+
+    int _score;
+    int _totalscore;
 };
 
 #endif // MAINDLG_H

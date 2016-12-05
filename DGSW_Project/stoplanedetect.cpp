@@ -1,6 +1,10 @@
 #include "stoplanedetect.h"
 
+int pointFlag = 0;
+int pointF1ag2 = 0;
+int video = 0;
 int i = 0;
+
 stopLaneDetect::stopLaneDetect() : deltaRho(1), deltaTheta(PI / 180), minVote(10), minLength(0.), maxGap(0.){
 }
 
@@ -167,7 +171,7 @@ void stopLaneDetect::intensifyWhite(cv::Mat& img, cv::Mat& out)
     else if (value > 130)
         V = 195;
 
-    V = V - 30;
+    V = V - 50;
 
     inRange(out, Scalar(0, 0, V), Scalar(180, 20, 255), out); // HSV 흰색 강조
 
@@ -250,8 +254,8 @@ void stopLaneDetect::drawDetectedLanes(Mat &image, int _input)
                     {
                         if (selected_first_1.y>pt1.y) // 첫 번째 두개의 y절편이 위
                         {
-                            if (selected_first_1.y - pt1.y < 90 && selected_first_1.y - pt1.y > 35 && selected_first_2.y - pt2.y < 90 && selected_first_2.y - pt2.y > 35)	// 세로 점 끼리의 거리가 -20~20 사이
-                            {//90 ~20
+                            if (selected_first_1.y - pt1.y < 75 && selected_first_1.y - pt1.y > 30 && selected_first_2.y - pt2.y < 75 && selected_first_2.y - pt2.y > 30)	// 세로 점 끼리의 거리가 -20~20 사이
+                            {
                                 selected_second_1 = pt1;
                                 selected_second_2 = pt2;
                                 found = 1;
@@ -260,7 +264,7 @@ void stopLaneDetect::drawDetectedLanes(Mat &image, int _input)
                         }
                         else if (selected_first_1.y<pt1.y)  // 두 번째 두개의 y절편이 위
                         {
-                            if (pt1.y - selected_first_1.y < 90 && pt1.y - selected_first_1.y > 35 && pt2.y - selected_first_2.y < 90 && pt2.y - selected_first_2.y > 35)	// 세로 점 끼리의 거리가 -20~20 사이
+                            if (pt1.y - selected_first_1.y < 75 && pt1.y - selected_first_1.y > 30 && pt2.y - selected_first_2.y < 75 && pt2.y - selected_first_2.y > 30)	// 세로 점 끼리의 거리가 -20~20 사이
                             {
                                 selected_second_1 = pt1;
                                 selected_second_2 = pt2;
@@ -278,9 +282,9 @@ void stopLaneDetect::drawDetectedLanes(Mat &image, int _input)
                     b = selected_first_1.y - slap * selected_first_1.x; // y 절편
                     equation = slap * selected_first_1.x + b; // p1을 이용한 직선의 방정식
 
-                    if ((slap*((selected_second_1.x + selected_second_2.x) / 2)) + (-1 * ((selected_second_1.y + selected_second_2.y) / 2)) + b / (sqrt((slap*slap) + 1))>35.0f &&
-                            (slap*((selected_second_1.x + selected_second_2.x) / 2)) + (-1 * ((selected_second_1.y + selected_second_2.y) / 2)) + b / (sqrt((slap*slap) + 1))<90.0f)	// 2개의 점의 중점과 2개의 점의 직선 사이의 거리
-                    {																	// 28 50 // 35 55
+                    if ((slap*((selected_second_1.x + selected_second_2.x) / 2)) + (-1 * ((selected_second_1.y + selected_second_2.y) / 2)) + b / (sqrt((slap*slap) + 1))>30.0f &&
+                            (slap*((selected_second_1.x + selected_second_2.x) / 2)) + (-1 * ((selected_second_1.y + selected_second_2.y) / 2)) + b / (sqrt((slap*slap) + 1))<75.0f)	// 2개의 점의 중점과 2개의 점의 직선 사이의 거리
+                    {
 
                         if (170<((selected_first_1.x + selected_first_2.x) / 2) && ((selected_first_1.x + selected_first_2.x) / 2)<330) // 4점의 중점의 위치가 150~350사이, 중앙은 250임
                         {
@@ -298,17 +302,56 @@ void stopLaneDetect::drawDetectedLanes(Mat &image, int _input)
                             second.x = rightest_x;
                             second.y = upperest_y;
 
-                            if (70 < first.x && first.x< 160)
+                            if (5 < first.x && first.x< 330)
                             {
-                                rectangle(image, first, second, 150, 2);
+                                if(video == 2)
+                                {
+                                    rectangle(image, first, Point(400,second.y), 150, 2);
+                                }
+                                else
+                                {
+                                    rectangle(image, first, second, 150, 2);
+                                }
+
                                 if (y_flag == 0)
                                     showDistance = setFittingLine(long((selected_first_1.y + selected_first_2.y) / 2));
                                 else if (y_flag == 1)
                                     showDistance = setFittingLine(long((selected_second_1.y + selected_second_2.y) / 2));
 
                                 sprintf(str_buf, "Distance : %dCM", showDistance);
-                                _distflag =  1;
-                                _stoplane_dist = showDistance;                           
+
+                                if((showDistance < 100) && (pointF1ag2 == 0))
+                                {
+                                    pointFlag = 0;
+                                }
+
+                                if(pointFlag == 0)
+                                {
+                                    _distflag = 1;
+
+                                    if(video == 1) // second red
+                                    {
+                                        _stoplane_dist = -100;
+                                        pointFlag = 1;
+                                    }
+                                    else if(video == 2) // red O && green O
+                                    {
+                                        if(showDistance < 100) // green O
+                                        {
+                                            _stoplane_dist = 10;
+
+                                            pointFlag = 1;
+                                            pointF1ag2 = 1;
+                                        }
+                                        else    // red O
+                                        {
+                                            _stoplane_dist = 20;
+                                            dispDistance = showDistance;
+                                            pointFlag = 1;
+                                        }
+                                    }
+
+                                }
                                 putText(image, str_buf, Point(20, 120), FONT_HERSHEY_SIMPLEX, 1, Scalar::all(255), 1);
                             }
                         }
@@ -322,7 +365,7 @@ void stopLaneDetect::drawDetectedLanes(Mat &image, int _input)
 }
 
 
-void stopLaneDetect::transformHough(InputArray src, OutputArray original, int _input)
+void stopLaneDetect::transformHough(InputArray src, OutputArray original, int _input, int _videoFlag)
 {
     int input = _input;
     Mat srcmat = src.getMat();
@@ -332,6 +375,7 @@ void stopLaneDetect::transformHough(InputArray src, OutputArray original, int _i
     setLineLengthAndGap(100, 100);	// 80 80
     setMinVote(50);
     setAccResolution(1, PI / 180);
+    video = _videoFlag;
 
     // 선 감지
     vector<Vec4i> lines = findLines(srcmat);
