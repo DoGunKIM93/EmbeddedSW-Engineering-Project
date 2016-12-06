@@ -22,3 +22,4 @@
 2016-12-02 00:05 add branch forStopAndGUI
 2016-12-02 00:11 add branch named 'forUpdateGUI'
 2016-12-06 01:24 Modified DGSW_Project && add videofiles
+2016-12-07 01:48 Check DGSW_Project && recording video output
