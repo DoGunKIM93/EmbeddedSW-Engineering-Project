@@ -12,17 +12,17 @@ TARGET = DGSW_project
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        maindlg.cpp \
-    childdlg.cpp \
-    stoplanedetect.cpp
+SOURCES += ./app/main.cpp\
+        ./app/maindlg.cpp \
+    ./app/childdlg.cpp \
+    ./lib/stoplanedetect.cpp
 
-HEADERS  += maindlg.h \
-    childdlg.h \
-    stoplanedetect.h
+HEADERS  += ./include/maindlg.h \
+    ./include/childdlg.h \
+    ./include/stoplanedetect.h
 
-FORMS    += maindlg.ui \
-    childdlg.ui
+FORMS    += ./app/maindlg.ui \
+    ./app/childdlg.ui
 
 INCLUDEPATH += /usr/local/include/opencv
 
