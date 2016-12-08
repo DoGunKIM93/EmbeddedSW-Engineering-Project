@@ -26,4 +26,5 @@ FORMS    += ./app/maindlg.ui \
 
 INCLUDEPATH += /usr/local/include/opencv
 
-LIBS += `pkg-config --cflags --libs opencv`
+LIBS += `pkg-config --cflags --libs opencv` \
+    -lmyStoplane
